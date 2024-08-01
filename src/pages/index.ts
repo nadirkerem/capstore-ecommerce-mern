@@ -1,6 +1,7 @@
 export { default as CartPage } from "./Cart";
 export { default as CheckoutPage } from "./Checkout";
 export { default as DashboardPage } from "./Dashboard";
+export { default as ErrorPage } from "./Error";
 export { default as Favorites } from "./Favorites";
 export { default as HomeLayout } from "./HomeLayout";
 export { default as LandingPage } from "./Landing";
@@ -10,3 +11,4 @@ export { default as ProductsPage } from "./Products";
 export { default as RegisterPage } from "./Register";
 export { default as ReviewsPage } from "./Reviews";
 export { default as SearchPage } from "./Search";
+export { default as SingleProductPage } from "./SingleProduct";
