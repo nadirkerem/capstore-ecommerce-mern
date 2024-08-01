@@ -1,0 +1,12 @@
+export { default as CartPage } from "./Cart";
+export { default as CheckoutPage } from "./Checkout";
+export { default as DashboardPage } from "./Dashboard";
+export { default as Favorites } from "./Favorites";
+export { default as HomeLayout } from "./HomeLayout";
+export { default as LandingPage } from "./Landing";
+export { default as LoginPage } from "./Login";
+export { default as OrdersPage } from "./Orders";
+export { default as ProductsPage } from "./Products";
+export { default as RegisterPage } from "./Register";
+export { default as ReviewsPage } from "./Reviews";
+export { default as SearchPage } from "./Search";
