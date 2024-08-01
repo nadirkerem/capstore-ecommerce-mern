@@ -1,12 +1,13 @@
-import { FormInput, SubmitButton } from "../components";
 import { Form, Link } from "react-router-dom";
+
+import { FormInput, SubmitButton } from "../components";
 
 export default function LoginPage() {
   return (
     <section className="grid h-screen place-items-center">
       <Form
         method="POST"
-        className="card bg-base-100 flex w-80 flex-col gap-y-5 p-8 shadow-md"
+        className="card bg-base-100 flex w-96 flex-col gap-y-5 p-8 shadow-md"
       >
         <h2 className="text-center text-2xl font-bold">
           Login to your account
