@@ -1,9 +1,11 @@
 import { Outlet } from "react-router-dom";
 
+import { Header } from "../components";
+
 export default function HomePage() {
   return (
     <>
-      <h1>Navbar</h1>
+      <Header />
       <Outlet />
     </>
   );
