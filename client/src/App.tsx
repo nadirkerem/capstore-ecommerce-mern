@@ -13,6 +13,10 @@ import {
   SingleProductPage,
 } from "./pages";
 
+import { Error } from "./components";
+
+import { loader as landingLoader } from "./pages/Landing";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,41 +26,36 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <LandingPage />,
+        errorElement: <Error />,
+        loader: landingLoader,
       },
       {
         path: "register",
         element: <RegisterPage />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "login",
         element: <LoginPage />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "cart",
         element: <CartPage />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "checkout",
         element: <CheckoutPage />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "orders",
         element: <OrdersPage />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "products",
         element: <ProductsPage />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "products/:productId",
         element: <SingleProductPage />,
-        errorElement: <ErrorPage />,
       },
     ],
   },
