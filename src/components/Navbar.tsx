@@ -89,7 +89,7 @@ export default function Navbar() {
           <NavLink to="/cart" className="btn btn-circle btn-ghost btn-md ml-4">
             <div className="indicator">
               <FaCartShopping className="h-6 w-6" />
-              <span className="badge indicator-item badge-neutral badge-sm">
+              <span className="badge indicator-item badge-secondary badge-sm">
                 0
               </span>
             </div>
