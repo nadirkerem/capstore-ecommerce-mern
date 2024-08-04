@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import Order from './Order';
 
 interface IUser extends Document {
-  name: string;
+  username: string;
   email: string;
   password: string;
   role: string;
