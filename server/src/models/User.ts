@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import validator from 'validator';
+import bcrypt from 'bcrypt';
 
 import Order from './Order';
 
@@ -10,7 +11,7 @@ interface IUser extends Document {
   role: string;
 }
 
-const userSchema: Schema = new Schema({
+const UserSchema: Schema = new Schema({
   username: {
     type: String,
     required: [true, 'Username is required'],
@@ -39,7 +40,22 @@ const userSchema: Schema = new Schema({
   },
 });
 
-userSchema.pre<IUser>(
+UserSchema.pre('save', async function () {
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password as string, salt);
+  } catch (error: any) {
+    throw new Error(error);
+  }
+});
+
+UserSchema.methods.comparePassword = async function (
+  password: string
+): Promise<boolean> {
+  return await bcrypt.compare(password, this.password);
+};
+
+UserSchema.pre<IUser>(
   'deleteOne',
   { document: true, query: false },
   async function (next) {
@@ -52,6 +68,6 @@ userSchema.pre<IUser>(
   }
 );
 
-const User = mongoose.model<IUser>('User', userSchema);
+const User = mongoose.model<IUser>('User', UserSchema);
 
 export default User;
