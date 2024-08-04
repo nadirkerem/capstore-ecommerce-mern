@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import validator from 'validator';
 
-import { createJWT } from '../utils/jwt';
+import { attachCookies, createJWT } from '../utils/jwt';
 
 import User from '../models/User';
 
@@ -60,9 +60,9 @@ export async function register(req: Request, res: Response): Promise<void> {
     role: user.role,
   };
 
-  const token = createJWT({ payload: tokenUser });
+  attachCookies({ res, tokenUser });
 
-  res.status(StatusCodes.CREATED).json({ user: tokenUser, token });
+  res.status(StatusCodes.CREATED).json({ user: tokenUser });
 }
 
 export async function login(req: Request, res: Response): Promise<void> {

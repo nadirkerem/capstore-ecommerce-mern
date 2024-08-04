@@ -1,6 +1,7 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 
 import connectDB from './config/db';
 
@@ -18,6 +19,7 @@ const app: Application = express();
 
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(cookieParser(process.env.JWT_SECRET));
 
 connectDB();
 
@@ -25,7 +27,7 @@ app.use('/api/auth', authRoutes);
 // app.use('/api/products', productRoutes);
 // app.use('/api/orders', orderRoutes);
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/api', (req: Request, res: Response) => {
   res.send('Welcome to Ecommerce API');
 });
 

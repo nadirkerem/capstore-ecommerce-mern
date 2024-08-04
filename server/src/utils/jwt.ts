@@ -1,3 +1,4 @@
+import { StatusCodes } from 'http-status-codes';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 export function createJWT({ payload }: { payload: object }): string {
@@ -20,4 +21,26 @@ export function verifyJWT({ token }: { token: string }): string | JwtPayload {
   } catch (error: any) {
     throw new Error('Invalid or expired token');
   }
+}
+
+export function attachCookies({
+  res,
+  tokenUser,
+}: {
+  res: any;
+  tokenUser: {
+    username: string;
+    userId: string | unknown;
+    email: string;
+    role: string;
+  };
+}): void {
+  const token = createJWT({ payload: tokenUser });
+
+  res.cookie('token', token, {
+    httpOnly: true,
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+    signed: true,
+    secure: process.env.NODE_ENV === 'production',
+  });
 }
