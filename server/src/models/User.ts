@@ -11,11 +11,12 @@ interface IUser extends Document {
 }
 
 const userSchema: Schema = new Schema({
-  name: {
+  username: {
     type: String,
-    required: [true, 'Name is required'],
-    minlength: [3, 'Name must be at least 3 characters long'],
-    maxlength: [50, 'Name must be at most 50 characters long'],
+    required: [true, 'Username is required'],
+    unique: true,
+    minlength: [3, 'Username must be at least 3 characters long'],
+    maxlength: [50, 'Username must be at most 50 characters long'],
   },
   email: {
     type: String,

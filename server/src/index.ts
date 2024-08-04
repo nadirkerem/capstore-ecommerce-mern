@@ -6,7 +6,7 @@ import connectDB from './config/db';
 
 import errorHandler from './middlewares/error-handler';
 
-import userRoutes from './routes/user-routes';
+import authRoutes from './routes/auth-routes';
 import productRoutes from './routes/product-routes';
 import orderRoutes from './routes/order-routes';
 
@@ -21,9 +21,9 @@ app.use(express.json());
 
 connectDB();
 
-app.use('/api/users', userRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
+app.use('/api/auth', authRoutes);
+// app.use('/api/products', productRoutes);
+// app.use('/api/orders', orderRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Ecommerce API');
