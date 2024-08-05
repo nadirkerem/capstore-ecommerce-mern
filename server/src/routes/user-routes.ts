@@ -17,12 +17,12 @@ router
   .route('/')
   .get(userAuthenticator, permissionAuthenticator('admin'), getAllUsers);
 
+router.route('/me').get(userAuthenticator, getCurrentUser);
+
+router.route('/update').put(userAuthenticator, updateUser);
+
+router.route('/update-password').put(userAuthenticator, updateUserPassword);
+
 router.route('/:id').get(userAuthenticator, getSingleUser);
-
-router.route('/me').get(getCurrentUser);
-
-router.route('/update').put(updateUser);
-
-router.route('/update-password').put(updateUserPassword);
 
 export default router;

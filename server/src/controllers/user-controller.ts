@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import User from '../models/User';
+import { attachCookies } from '../utils/jwt';
+import { checkPermission } from '../utils/permission';
 
 export async function getAllUsers(req: Request, res: Response): Promise<void> {
   const users = await User.find({
@@ -16,7 +18,7 @@ export async function getAllUsers(req: Request, res: Response): Promise<void> {
 }
 
 export async function getSingleUser(
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> {
   const user = await User.findById(req.params.id).select('-password');
@@ -26,21 +28,88 @@ export async function getSingleUser(
     return;
   }
 
+  const isDenied = checkPermission(req.user, user._id, res);
+
+  if (isDenied) return;
+
   res.status(StatusCodes.OK).json(user);
 }
 
 export async function getCurrentUser(
-  req: Request,
+  req: Request | any,
   res: Response
-): Promise<void> {}
+): Promise<void> {
+  res.status(StatusCodes.OK).json({ user: req.user });
+}
 
-export async function updateUser(req: Request, res: Response): Promise<void> {
-  res.json({ message: 'updateUser' });
+export async function updateUser(
+  req: Request | any,
+  res: Response
+): Promise<void> {
+  const { username, email } = req.body;
+
+  if (!username && !email) {
+    res.status(StatusCodes.BAD_REQUEST).json({
+      message: 'Username or email is required',
+    });
+    return;
+  }
+
+  const isAlreadyExist = await User.findOne({
+    $or: [{ username }, { email }],
+    _id: { $ne: req.user.userId },
+  });
+
+  if (isAlreadyExist) {
+    res.status(StatusCodes.BAD_REQUEST).json({
+      message: 'Username or email is already in use',
+    });
+    return;
+  }
+
+  const user = await User.findByIdAndUpdate(
+    req.user.userId,
+    { username, email },
+    { new: true, runValidators: true }
+  );
+
+  const tokenUser = {
+    userId: user!._id,
+    username: user!.username,
+    email: user!.email,
+    role: user!.role,
+  };
+
+  attachCookies({ res, tokenUser });
+
+  res.status(StatusCodes.OK).json({ user: tokenUser });
 }
 
 export async function updateUserPassword(
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> {
-  res.json({ message: 'updateUserPassword' });
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    res.status(StatusCodes.BAD_REQUEST).json({
+      message: 'Current password and new password are required',
+    });
+    return;
+  }
+
+  const user = (await User.findById(req.user.userId))!;
+
+  const isPasswordValid = await user.comparePassword(currentPassword);
+
+  if (!isPasswordValid) {
+    res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid password' });
+    return;
+  }
+
+  user.password = newPassword;
+
+  await user.save();
+
+  res.status(StatusCodes.OK).json({ message: 'Password updated' });
 }
