@@ -1,4 +1,4 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 export function createJWT({ payload }: { payload: object }): string {
   if (!process.env.JWT_SECRET || !process.env.JWT_LIFETIME) {
@@ -10,7 +10,7 @@ export function createJWT({ payload }: { payload: object }): string {
   });
 }
 
-export function verifyJWT({ token }: { token: string }): string | JwtPayload {
+export function verifyJWT({ token }: { token: string }) {
   if (!process.env.JWT_SECRET) {
     throw new Error('JWT_SECRET must be provided');
   }
