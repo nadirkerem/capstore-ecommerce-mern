@@ -66,7 +66,43 @@ export async function register(req: Request, res: Response): Promise<void> {
 }
 
 export async function login(req: Request, res: Response): Promise<void> {
-  res.send('Login route');
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: 'Email and password are required' });
+    return;
+  }
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'Invalid credentials' });
+    return;
+  }
+
+  const isPasswordValid = await user.comparePassword(password);
+
+  if (!isPasswordValid) {
+    res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'Invalid credentials' });
+    return;
+  }
+
+  const tokenUser = {
+    username: user.username,
+    userId: user._id,
+    email: user.email,
+    role: user.role,
+  };
+
+  attachCookies({ res, tokenUser });
+
+  res.status(StatusCodes.OK).json({ user: tokenUser });
 }
 
 export async function logout(req: Request, res: Response): Promise<void> {

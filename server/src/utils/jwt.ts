@@ -1,4 +1,3 @@
-import { StatusCodes } from 'http-status-codes';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 export function createJWT({ payload }: { payload: object }): string {

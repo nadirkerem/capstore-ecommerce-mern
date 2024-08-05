@@ -9,6 +9,7 @@ interface IUser extends Document {
   email: string;
   password: string;
   role: string;
+  comparePassword(password: string): Promise<boolean>;
 }
 
 const UserSchema: Schema = new Schema({
