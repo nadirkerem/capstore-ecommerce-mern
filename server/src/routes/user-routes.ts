@@ -6,13 +6,18 @@ import {
   updateUser,
   updateUserPassword,
 } from '../controllers/user-controller';
-import authenticator from '../middlewares/authenticator';
+import {
+  permissionAuthenticator,
+  userAuthenticator,
+} from '../middlewares/authenticator';
 
 const router = Router();
 
-router.route('/').get(authenticator, getAllUsers);
+router
+  .route('/')
+  .get(userAuthenticator, permissionAuthenticator('admin'), getAllUsers);
 
-router.route('/:id').get(authenticator, getSingleUser);
+router.route('/:id').get(userAuthenticator, getSingleUser);
 
 router.route('/me').get(getCurrentUser);
 
