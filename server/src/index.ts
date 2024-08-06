@@ -8,9 +8,9 @@ import connectDB from './config/db';
 import errorHandler from './middlewares/error-handler';
 
 import authRoutes from './routes/auth-routes';
-import orderRoutes from './routes/order-routes';
 import productRoutes from './routes/product-routes';
 import userRoutes from './routes/user-routes';
+import reviewRoutes from './routes/review-routes';
 
 dotenv.config();
 
@@ -26,7 +26,7 @@ connectDB();
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
-// app.use('/api/orders', orderRoutes);
+app.use('/api/reviews', reviewRoutes);
 app.use('/api/users', userRoutes);
 
 app.get('/api', (req: Request, res: Response) => {
