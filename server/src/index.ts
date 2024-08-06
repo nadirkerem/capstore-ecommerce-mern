@@ -8,8 +8,8 @@ import connectDB from './config/db';
 import errorHandler from './middlewares/error-handler';
 
 import authRoutes from './routes/auth-routes';
-import productRoutes from './routes/product-routes';
 import orderRoutes from './routes/order-routes';
+import productRoutes from './routes/product-routes';
 import userRoutes from './routes/user-routes';
 
 dotenv.config();
@@ -25,7 +25,7 @@ app.use(cookieParser(process.env.JWT_SECRET));
 connectDB();
 
 app.use('/api/auth', authRoutes);
-// app.use('/api/products', productRoutes);
+app.use('/api/products', productRoutes);
 // app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 
