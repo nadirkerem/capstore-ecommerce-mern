@@ -1,6 +1,16 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-interface IOrder extends Document {}
+interface IOrder extends Document {
+  tax: number;
+  shippingFee: number;
+  subtotal: number;
+  total: number;
+  items: [];
+  user: mongoose.Schema.Types.ObjectId;
+  clientSecret: string;
+  paymentIntentId: string;
+  status: string;
+}
 
 const OrderSchema: Schema = new Schema(
   {
