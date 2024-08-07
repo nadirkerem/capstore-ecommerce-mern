@@ -72,6 +72,10 @@ const ProductSchema: Schema = new Schema(
       max: [5, 'Rating must be between 0 and 5'],
       index: true,
     },
+    numOfReviews: {
+      type: Number,
+      default: 0,
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -80,20 +84,24 @@ const ProductSchema: Schema = new Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
-ProductSchema.pre<IProduct>(
+ProductSchema.pre(
   'deleteOne',
   { document: true, query: false },
-  async function (next) {
-    try {
-      await Order.deleteMany({ 'products.product': this._id });
-      next();
-    } catch (error: any) {
-      next(error);
-    }
+  async function () {
+    await this.model('Review').deleteMany({ product: this._id });
   }
 );
+
+ProductSchema.virtual('reviews', {
+  ref: 'Review',
+  localField: '_id',
+  foreignField: 'product',
+  justOne: false,
+});
 
 export default mongoose.model<IProduct>('Product', ProductSchema);

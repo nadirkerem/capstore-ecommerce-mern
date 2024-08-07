@@ -6,7 +6,7 @@ export async function getAllProducts(
   req: Request | any,
   res: Response
 ): Promise<void> {
-  const products = await Product.find();
+  const products = await Product.find({});
 
   if (!products) {
     res.status(StatusCodes.NOT_FOUND).json({ message: 'No products found' });
@@ -20,7 +20,7 @@ export async function getSingleProduct(
   req: Request,
   res: Response
 ): Promise<void> {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findById(req.params.id).populate('reviews');
 
   if (!product) {
     res.status(StatusCodes.NOT_FOUND).json({ message: 'Product not found' });
@@ -70,12 +70,14 @@ export async function deleteProduct(
   req: Request,
   res: Response
 ): Promise<void> {
-  const product = await Product.findByIdAndDelete(req.params.id);
+  const product = await Product.findOne({ _id: req.params.id });
 
   if (!product) {
     res.status(StatusCodes.NOT_FOUND).json({ message: 'Product not found' });
     return;
   }
+
+  await product.deleteOne();
 
   res.status(StatusCodes.OK).json({ message: 'Product deleted' });
 }

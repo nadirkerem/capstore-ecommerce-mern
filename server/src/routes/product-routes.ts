@@ -12,6 +12,7 @@ import {
   permissionAuthenticator,
   userAuthenticator,
 } from '../middlewares/authenticator';
+import { getSingleProductReviews } from '../controllers/review-controller';
 
 const router: Router = Router();
 
@@ -25,5 +26,7 @@ router
   .get(getSingleProduct)
   .put(userAuthenticator, permissionAuthenticator('admin'), updateProduct)
   .delete(userAuthenticator, permissionAuthenticator('admin'), deleteProduct);
+
+router.route('/:id/reviews').get(getSingleProductReviews);
 
 export default router;

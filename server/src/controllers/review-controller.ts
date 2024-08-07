@@ -9,7 +9,15 @@ export async function getAllReviews(
   req: Request | any,
   res: Response
 ): Promise<void> {
-  const reviews = await Review.find({});
+  const reviews = await Review.find({})
+    .populate({
+      path: 'user',
+      select: 'name',
+    })
+    .populate({
+      path: 'product',
+      select: 'name company price',
+    });
 
   if (!reviews) {
     res.status(StatusCodes.NOT_FOUND).json({ message: 'No reviews found' });
@@ -23,7 +31,15 @@ export async function getSingleReview(
   req: Request,
   res: Response
 ): Promise<void> {
-  const review = await Review.findById(req.params.id);
+  const review = await Review.findById(req.params.id)
+    .populate({
+      path: 'user',
+      select: 'name',
+    })
+    .populate({
+      path: 'product',
+      select: 'name company price',
+    });
 
   if (!review) {
     res.status(StatusCodes.NOT_FOUND).json({ message: 'Review not found' });
@@ -85,21 +101,13 @@ export async function updateReview(
 
   if (isDenied) return;
 
-  const updatedReview = await Review.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
+  req.body.rating = req.body.rating || review.rating;
+  req.body.title = req.body.title || review.title;
+  req.body.comment = req.body.comment || review.comment;
 
-  if (!updatedReview) {
-    res.status(StatusCodes.BAD_REQUEST).json({ message: 'Review not updated' });
-    return;
-  }
+  await review.save();
 
-  res.status(StatusCodes.OK).json({ updatedReview });
+  res.status(StatusCodes.OK).json({ review });
 }
 
 export async function deleteReview(
@@ -117,5 +125,21 @@ export async function deleteReview(
 
   if (isDenied) return;
 
+  await review.deleteOne();
+
   res.status(StatusCodes.OK).json({ message: 'Review deleted successfully' });
+}
+
+export async function getSingleProductReviews(
+  req: Request,
+  res: Response
+): Promise<void> {
+  const reviews = await Review.find({ product: req.params.id });
+
+  if (!reviews) {
+    res.status(StatusCodes.NOT_FOUND).json({ message: 'No reviews found' });
+    return;
+  }
+
+  res.status(StatusCodes.OK).json({ reviews });
 }

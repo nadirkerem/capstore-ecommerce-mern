@@ -1,20 +1,17 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Model } from 'mongoose';
 
 import Order from './Order';
 
 interface IReview extends Document {
   rating: number;
-  price: number;
-  description: string;
-  image: string;
-  category: string;
-  colors: string[];
-  company: string;
-  featured: boolean;
-  stock: number;
-  freeShipping: boolean;
-  userRating: number;
+  title: string;
+  comment: string;
   user: mongoose.Schema.Types.ObjectId;
+  product: mongoose.Schema.Types.ObjectId;
+}
+
+interface IReviewModel extends Model<IReview> {
+  calculateUserRating(productId: string): Promise<void>;
 }
 
 const ReviewSchema: Schema = new Schema(
@@ -55,4 +52,18 @@ const ReviewSchema: Schema = new Schema(
 
 ReviewSchema.index({ user: 1, product: 1 }, { unique: true });
 
-export default mongoose.model<IReview>('Review', ReviewSchema);
+ReviewSchema.statics.calculateUserRating = async function (
+  productId: string
+) {};
+
+ReviewSchema.post<IReview>('save', async function () {
+  const review = this as IReview & { constructor: IReviewModel };
+  await review.constructor.calculateUserRating(this.product.toString());
+});
+
+ReviewSchema.post<IReview>('deleteOne', async function () {
+  const review = this as IReview & { constructor: IReviewModel };
+  await review.constructor.calculateUserRating(this.product.toString());
+});
+
+export default mongoose.model<IReview, IReviewModel>('Review', ReviewSchema);
