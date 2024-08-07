@@ -48,6 +48,7 @@ const ProductSchema: Schema = new Schema(
     colors: {
       type: [String],
       required: [true, 'Colors are required'],
+      default: ['#000'],
     },
     company: {
       type: String,

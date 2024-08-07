@@ -1,34 +1,49 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-interface IOrder extends Document {
-  user: mongoose.Schema.Types.ObjectId;
-  products: { product: mongoose.Schema.Types.ObjectId; quantity: number }[];
-  totalAmount: number;
-  createdAt: Date;
-  status: 'Pending' | 'Shipped' | 'Delivered' | 'Cancelled';
-}
+interface IOrder extends Document {}
 
-const orderSchema: Schema = new Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  products: [
-    {
-      product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-        required: true,
-      },
-      quantity: { type: Number, required: true },
+const OrderSchema: Schema = new Schema(
+  {
+    tax: {
+      type: Number,
+      required: true,
     },
-  ],
-  totalAmount: { type: Number, required: true },
-  createdAt: { type: Date, default: Date.now },
-  status: {
-    type: String,
-    enum: ['Pending', 'Shipped', 'Delivered', 'Cancelled'],
-    default: 'Pending',
+    shippingFee: {
+      type: Number,
+      required: true,
+    },
+    subtotal: {
+      type: Number,
+      required: true,
+    },
+    total: {
+      type: Number,
+      required: true,
+    },
+    items: [],
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    clientSecret: {
+      type: String,
+      required: true,
+    },
+    paymentIntentId: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ['processing', 'failed', 'shipped', 'cancelled', 'delivered'],
+      required: true,
+      default: 'processing',
+    },
   },
-});
+  {
+    timestamps: true,
+  }
+);
 
-const Order = mongoose.model<IOrder>('Order', orderSchema);
-
-export default Order;
+export default mongoose.model<IOrder>('Order', OrderSchema);
