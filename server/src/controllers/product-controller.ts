@@ -6,7 +6,11 @@ export async function getAllProducts(
   req: Request | any,
   res: Response
 ): Promise<void> {
-  const products = await Product.find({});
+  const { featured } = req.query;
+
+  const query = featured ? { featured } : {};
+
+  const products = await Product.find(query);
 
   res.status(StatusCodes.OK).json({ products, count: products.length });
 }
