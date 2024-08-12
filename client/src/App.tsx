@@ -15,7 +15,7 @@ import {
 
 import { Error } from "./components";
 
-import { loader as landingLoader } from "./pages/Landing";
+import { landingLoader } from "./utils/loaders";
 
 const router = createBrowserRouter([
   {

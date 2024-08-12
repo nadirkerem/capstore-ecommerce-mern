@@ -6,9 +6,9 @@ export async function getAllProducts(
   req: Request | any,
   res: Response
 ): Promise<void> {
-  const { featured } = req.query;
+  const { landing } = req.query;
 
-  const query = featured ? { featured } : {};
+  const query = landing ? { landing } : {};
 
   const products = await Product.find(query);
 

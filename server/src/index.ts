@@ -7,6 +7,7 @@ import rateLimit from 'express-rate-limit';
 import mongoSanitize from 'express-mongo-sanitize';
 // @ts-ignore
 import xss from 'xss-clean';
+import cors from 'cors';
 
 import connectDB from './config/db';
 
@@ -36,6 +37,12 @@ app.use(
 );
 app.use(mongoSanitize());
 app.use(xss());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  })
+);
 
 connectDB();
 

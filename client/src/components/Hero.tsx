@@ -17,7 +17,7 @@ export default function Hero() {
             We have everything you need in one place. Start shopping now and
             find your favorites!
           </p>
-          <button className="btn btn-secondary">Shop Now</button>
+          <button className="btn btn-neutral">Shop Now</button>
         </div>
       </div>
     </div>

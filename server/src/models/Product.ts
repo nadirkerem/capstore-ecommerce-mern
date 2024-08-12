@@ -8,7 +8,7 @@ interface IProduct extends Document {
   category: string;
   colors: string[];
   company: string;
-  featured: boolean;
+  landing: boolean;
   stock: number;
   freeShipping: boolean;
   userRating: number;
@@ -52,7 +52,7 @@ const ProductSchema: Schema = new Schema(
       type: String,
       required: [true, 'Company is required'],
     },
-    featured: {
+    landing: {
       type: Boolean,
       default: false,
     },

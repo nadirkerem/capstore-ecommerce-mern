@@ -1,13 +1,10 @@
-import { Hero } from "../components";
-
-export function loader() {
-  return null;
-}
+import { Hero, ListedProducts } from "../components";
 
 export default function LandingPage() {
   return (
     <>
       <Hero />
+      <ListedProducts />
     </>
   );
 }
