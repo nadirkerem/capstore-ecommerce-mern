@@ -10,6 +10,7 @@ interface IOrder extends Document {
   orderItems: IOrderItem[];
   user: mongoose.Schema.Types.ObjectId;
   clientSecret: string;
+  paymentIntentId: string;
   status: string;
 }
 
@@ -41,9 +42,22 @@ const OrderSchema: Schema = new Schema(
       type: String,
       required: true,
     },
+    paymentIntentId: {
+      type: String,
+    },
     status: {
       type: String,
-      enum: ['processing', 'failed', 'shipped', 'cancelled', 'delivered'],
+      enum: [
+        'processing',
+        'failed',
+        'paid',
+        'packed',
+        'shipped',
+        'completed',
+        'cancelled',
+        'returned',
+        'refunded',
+      ],
       required: true,
       default: 'processing',
     },

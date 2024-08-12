@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import Product from '../models/Product';
 import Order from '../models/Order';
+import { checkPermission } from '../utils/permission';
 
 async function mockStripeAPI({
   amount,
@@ -15,11 +16,32 @@ async function mockStripeAPI({
   return { client_secret, amount };
 }
 
-export async function getAllOrders(req: Request, res: Response) {}
+export async function getAllOrders(req: Request, res: Response) {
+  const orders = await Order.find({});
 
-export async function getSingleOrder(req: Request, res: Response) {}
+  res.status(StatusCodes.OK).json({ orders, count: orders.length });
+}
 
-export async function getCurrentUserOrders(req: Request, res: Response) {}
+export async function getSingleOrder(req: Request | any, res: Response) {
+  const order = await Order.findById(req.params.id);
+
+  if (!order) {
+    res.status(404).json({ message: 'Order not found' });
+    return;
+  }
+
+  const isDenied = checkPermission(req.user, order.user, res);
+
+  if (isDenied) return;
+
+  res.status(StatusCodes.OK).json(order);
+}
+
+export async function getCurrentUserOrders(req: Request | any, res: Response) {
+  const orders = await Order.find({ user: req.user.userId });
+
+  res.status(StatusCodes.OK).json({ orders, count: orders.length });
+}
 
 export async function createOrder(req: Request | any, res: Response) {
   const { items: cartItems, tax, shippingFee } = req.body;
@@ -77,11 +99,47 @@ export async function createOrder(req: Request | any, res: Response) {
     clientSecret: paymentIntent.client_secret,
   });
 
+  if (!order) {
+    res.status(400).json({ message: 'Order could not be created' });
+    return;
+  }
+
   res
     .status(StatusCodes.CREATED)
     .json({ order, clientSecret: order.clientSecret });
 }
 
-export async function updateOrder(req: Request, res: Response) {}
+export async function updateOrder(req: Request | any, res: Response) {
+  const { paymentIntentId, status } = req.body;
 
-export async function deleteOrder(req: Request, res: Response) {}
+  const order = await Order.findById(req.params.id);
+
+  if (!order) {
+    res.status(404).json({ message: 'Order not found' });
+    return;
+  }
+
+  const isDenied = checkPermission(req.user, order.user, res);
+
+  if (isDenied) return;
+
+  order.paymentIntentId = paymentIntentId;
+  order.status = status;
+
+  await order.save();
+
+  res.status(StatusCodes.OK).json({ order });
+}
+
+export async function deleteOrder(req: Request, res: Response) {
+  const order = await Order.findById(req.params.id);
+
+  if (!order) {
+    res.status(404).json({ message: 'Order not found' });
+    return;
+  }
+
+  await order.deleteOne();
+
+  res.status(StatusCodes.OK).json({ message: 'Order removed' });
+}
