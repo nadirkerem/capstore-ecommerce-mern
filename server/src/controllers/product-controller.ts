@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Product from '../models/Product';
 import { StatusCodes } from 'http-status-codes';
+import mongoose from 'mongoose';
 
 export async function getAllProducts(
   req: Request | any,
@@ -19,6 +20,11 @@ export async function getSingleProduct(
   req: Request,
   res: Response
 ): Promise<void> {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: 'Invalid product id' });
+    return;
+  }
+
   const product = await Product.findById(req.params.id).populate('reviews');
 
   if (!product) {
@@ -52,6 +58,11 @@ export async function updateProduct(
   req: Request,
   res: Response
 ): Promise<void> {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: 'Invalid product id' });
+    return;
+  }
+
   const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -69,6 +80,11 @@ export async function deleteProduct(
   req: Request,
   res: Response
 ): Promise<void> {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: 'Invalid product id' });
+    return;
+  }
+
   const product = await Product.findOne({ _id: req.params.id });
 
   if (!product) {

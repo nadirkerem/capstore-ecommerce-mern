@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import User from '../models/User';
 import { attachCookies } from '../utils/jwt';
 import { checkPermission } from '../utils/permission';
+import mongoose from 'mongoose';
 
 export async function getAllUsers(req: Request, res: Response): Promise<void> {
   const users = await User.find({
@@ -16,6 +17,11 @@ export async function getSingleUser(
   req: Request | any,
   res: Response
 ): Promise<void> {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: 'Invalid user id' });
+    return;
+  }
+
   const user = await User.findById(req.params.id).select('-password');
 
   if (!user) {

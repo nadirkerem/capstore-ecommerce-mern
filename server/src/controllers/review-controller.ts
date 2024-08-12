@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import Product from '../models/Product';
 import Review from '../models/Review';
 import { checkPermission } from '../utils/permission';
+import mongoose from 'mongoose';
 
 export async function getAllReviews(
   req: Request | any,
@@ -35,6 +36,11 @@ export async function getSingleReview(
       path: 'product',
       select: 'name company price',
     });
+
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: 'Invalid review id' });
+    return;
+  }
 
   if (!review) {
     res.status(StatusCodes.NOT_FOUND).json({ message: 'Review not found' });

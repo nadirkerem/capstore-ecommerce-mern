@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import Product from '../models/Product';
 import Order from '../models/Order';
 import { checkPermission } from '../utils/permission';
+import mongoose from 'mongoose';
 
 async function mockStripeAPI({
   amount,
@@ -23,6 +24,11 @@ export async function getAllOrders(req: Request, res: Response) {
 }
 
 export async function getSingleOrder(req: Request | any, res: Response) {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: 'Invalid order id' });
+    return;
+  }
+
   const order = await Order.findById(req.params.id);
 
   if (!order) {
@@ -110,6 +116,11 @@ export async function createOrder(req: Request | any, res: Response) {
 }
 
 export async function updateOrder(req: Request | any, res: Response) {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: 'Invalid order id' });
+    return;
+  }
+
   const { paymentIntentId, status } = req.body;
 
   const order = await Order.findById(req.params.id);
@@ -132,6 +143,11 @@ export async function updateOrder(req: Request | any, res: Response) {
 }
 
 export async function deleteOrder(req: Request, res: Response) {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: 'Invalid order id' });
+    return;
+  }
+
   const order = await Order.findById(req.params.id);
 
   if (!order) {
