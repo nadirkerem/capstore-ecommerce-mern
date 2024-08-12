@@ -1,0 +1,62 @@
+[
+  {
+    "tax": 1099,
+    "shippingFee": 599,
+    "items": [
+      {
+        "name": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+        "price": 10995,
+        "amount": 1,
+        "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+        "product": "66b1a3030e5f60b8821633f5"
+      },
+      {
+        "name": "Mens Casual Slim Fit",
+        "price": 1599,
+        "amount": 1,
+        "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
+        "product": "66b1a598ac2b025102db23ed"
+      }
+    ]
+  },
+  {
+    "tax": 1530,
+    "shippingFee": 750,
+    "items": [
+      {
+        "name": "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
+        "price": 69500,
+        "amount": 1,
+        "image": "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg",
+        "product": "66b1a598ac2b025102db23ee"
+      },
+      {
+        "name": "Solid Gold Petite Micropave",
+        "price": 16800,
+        "amount": 1,
+        "image": "https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg",
+        "product": "66b1a598ac2b025102db23ef"
+      }
+    ]
+  },
+  {
+    "tax": 2520,
+    "shippingFee": 1200,
+    "items": [
+      {
+        "name": "Samsung 49-Inch CHG90 144Hz Curved Gaming Monitor (LC49HG90DMNXZA) – Super Ultrawide Screen QLED",
+        "price": 99999,
+        "amount": 1,
+        "image": "https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg",
+        "product": "66b1a598ac2b025102db23f7"
+      },
+      {
+        "name": "SanDisk SSD PLUS 1TB Internal SSD - SATA III 6 Gb/s",
+        "price": 10900,
+        "amount": 1,
+        "image": "https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_.jpg",
+        "product": "66b1a598ac2b025102db23f3"
+      }
+    ]
+  }
+]

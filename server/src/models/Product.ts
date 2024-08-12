@@ -1,7 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-import Order from './Order';
-
 interface IProduct extends Document {
   name: string;
   price: number;

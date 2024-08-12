@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-interface ICartItem extends Document {
+export interface IOrderItem extends Document {
   name: string;
   image: string;
   price: number;
@@ -8,7 +8,7 @@ interface ICartItem extends Document {
   product: mongoose.Schema.Types.ObjectId;
 }
 
-const CartItemSchema: Schema = new Schema(
+export const OrderItemSchema: Schema = new Schema(
   {
     name: {
       type: String,
@@ -36,5 +36,3 @@ const CartItemSchema: Schema = new Schema(
     timestamps: true,
   }
 );
-
-export default mongoose.model<ICartItem>('CartItem', CartItemSchema);

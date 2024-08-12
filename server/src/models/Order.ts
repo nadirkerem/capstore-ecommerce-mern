@@ -1,14 +1,15 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
+import { IOrderItem, OrderItemSchema } from './OrderItem';
+
 interface IOrder extends Document {
   tax: number;
   shippingFee: number;
-  subtotal: number;
+  subTotal: number;
   total: number;
-  items: [];
+  orderItems: IOrderItem[];
   user: mongoose.Schema.Types.ObjectId;
   clientSecret: string;
-  paymentIntentId: string;
   status: string;
 }
 
@@ -22,7 +23,7 @@ const OrderSchema: Schema = new Schema(
       type: Number,
       required: true,
     },
-    subtotal: {
+    subTotal: {
       type: Number,
       required: true,
     },
@@ -30,17 +31,13 @@ const OrderSchema: Schema = new Schema(
       type: Number,
       required: true,
     },
-    items: [],
+    orderItems: [OrderItemSchema],
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
     clientSecret: {
-      type: String,
-      required: true,
-    },
-    paymentIntentId: {
       type: String,
       required: true,
     },
