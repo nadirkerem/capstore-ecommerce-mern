@@ -8,12 +8,7 @@ export async function getAllProducts(
 ): Promise<void> {
   const products = await Product.find({});
 
-  if (!products) {
-    res.status(StatusCodes.NOT_FOUND).json({ message: 'No products found' });
-    return;
-  }
-
-  res.status(StatusCodes.OK).json({ products });
+  res.status(StatusCodes.OK).json({ products, count: products.length });
 }
 
 export async function getSingleProduct(

@@ -19,12 +19,7 @@ export async function getAllReviews(
       select: 'name company price',
     });
 
-  if (!reviews) {
-    res.status(StatusCodes.NOT_FOUND).json({ message: 'No reviews found' });
-    return;
-  }
-
-  res.status(StatusCodes.OK).json({ reviews });
+  res.status(StatusCodes.OK).json({ reviews, count: reviews.length });
 }
 
 export async function getSingleReview(
@@ -141,5 +136,5 @@ export async function getSingleProductReviews(
     return;
   }
 
-  res.status(StatusCodes.OK).json({ reviews });
+  res.status(StatusCodes.OK).json({ reviews, count: reviews.length });
 }

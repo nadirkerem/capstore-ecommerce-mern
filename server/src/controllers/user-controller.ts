@@ -9,11 +9,6 @@ export async function getAllUsers(req: Request, res: Response): Promise<void> {
     role: { $ne: 'admin' },
   }).select('-password');
 
-  if (!users) {
-    res.status(StatusCodes.NOT_FOUND).json({ message: 'No users found' });
-    return;
-  }
-
   res.status(StatusCodes.OK).json({ users });
 }
 
