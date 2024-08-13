@@ -1,16 +1,16 @@
 import { FaBars, FaCartShopping, FaShop } from "react-icons/fa6";
-import { IoSunny, IoMoon } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import { navbarLinks } from "../utils/links";
 import { useEffect, useState } from "react";
 import { themes } from "../utils/themes";
+import { ThemeController } from ".";
 
-function initTheme() {
+function initialTheme() {
   return localStorage.getItem("theme") || themes.pastel;
 }
 
 export default function Navbar() {
-  const [theme, setTheme] = useState<string>(initTheme());
+  const [theme, setTheme] = useState<string>(initialTheme());
 
   function toggleTheme() {
     const { pastel, sunset } = themes;
@@ -77,16 +77,8 @@ export default function Navbar() {
           </div>
         </div>
         <div className="navbar-end">
-          <label className="swap swap-rotate">
-            <input
-              type="checkbox"
-              onChange={toggleTheme}
-              className="swap-checkbox"
-            />
-            <IoSunny className="swap-on h-6 w-6" />
-            <IoMoon className="swap-off h-6 w-6" />
-          </label>
-          <NavLink to="/cart" className="btn btn-circle btn-ghost btn-md ml-4">
+          <ThemeController toggleTheme={toggleTheme} />
+          <NavLink to="/cart" className="btn btn-circle btn-ghost btn-md">
             <div className="indicator">
               <FaCartShopping className="h-6 w-6" />
               <span className="badge indicator-item badge-neutral badge-sm">

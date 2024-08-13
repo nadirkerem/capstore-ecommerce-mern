@@ -59,10 +59,13 @@ export async function getAllProducts(
     case 'oldest':
       sortOption.createdAt = 1;
       break;
-    case 'low-to-high':
+    case 'rating':
+      sortOption.rating = -1;
+      break;
+    case 'price-low-to-high':
       sortOption.price = 1;
       break;
-    case 'high-to-low':
+    case 'price-high-to-low':
       sortOption.price = -1;
       break;
     case 'a-z':
@@ -71,6 +74,7 @@ export async function getAllProducts(
     case 'z-a':
       sortOption.name = -1;
       break;
+
     default:
       sortOption.createdAt = -1;
   }
@@ -79,10 +83,13 @@ export async function getAllProducts(
 
   const totalPages = Math.ceil(count / Number(limit));
 
+  const categories = await Product.distinct('category');
+  const brands = await Product.distinct('brand');
+
   if (count === 0) {
     res
       .status(StatusCodes.OK)
-      .json({ products: [], meta: { totalProducts: 0 } });
+      .json({ products: [], meta: { totalProducts: 0 }, categories, brands });
     return;
   }
 
@@ -105,9 +112,6 @@ export async function getAllProducts(
     currentPage: Number(page),
     productsPerPage: Math.min(products.length, Number(limit)),
   };
-
-  const categories = await Product.distinct('category');
-  const brands = await Product.distinct('brand');
 
   res.status(StatusCodes.OK).json({ products, meta, categories, brands });
 }

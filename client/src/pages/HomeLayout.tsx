@@ -1,12 +1,14 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigation } from "react-router-dom";
 
-import { Header } from "../components";
+import { Header, LoadingSpinner } from "../components";
 
 export default function HomePage() {
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "loading";
   return (
     <>
       <Header />
-      <Outlet />
+      {isLoading ? <LoadingSpinner /> : <Outlet />}
     </>
   );
 }

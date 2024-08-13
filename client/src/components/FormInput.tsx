@@ -5,6 +5,7 @@ interface FormInputProps {
   defaultValue?: string;
   placeholder?: string;
   altLabel?: string;
+  size?: string;
 }
 
 export default function FormInput({
@@ -14,18 +15,19 @@ export default function FormInput({
   defaultValue,
   placeholder,
   altLabel,
+  size,
 }: FormInputProps) {
   return (
-    <label className="form-control w-full max-w-xs">
+    <label className="form-control w-full">
       <div className="label">
-        <span className="label-text">{label}</span>
+        <span className="label-text capitalize">{label}</span>
       </div>
       <input
         type={type}
         name={name}
         defaultValue={defaultValue}
         placeholder={placeholder}
-        className="input input-bordered w-full max-w-xs"
+        className={`input input-bordered w-full ${size}`}
       />
       {altLabel && (
         <div className="label">
