@@ -7,29 +7,109 @@ export async function getAllProducts(
   req: Request | any,
   res: Response
 ): Promise<void> {
-  const { page = 1, limit = 6, landing } = req.query;
+  const {
+    page = 1,
+    limit = 6,
+    landing,
+    search,
+    category,
+    brand,
+    maxPrice,
+    freeShipping,
+    sort,
+  } = req.query;
 
-  let query = {};
+  let query: any = {};
 
   if (landing) {
     query = { landing: true };
   }
 
-  const products = await Product.find(query)
-    .limit(Number(limit))
-    .skip((Number(page) - 1) * Number(limit));
+  if (search && search !== '') {
+    const searchRegex = new RegExp(search, 'i');
+    query.$or = [
+      { name: searchRegex },
+      { description: searchRegex },
+      { category: searchRegex },
+      { brand: searchRegex },
+    ];
+  }
+
+  if (category && category !== 'All') {
+    query.category = category;
+  }
+
+  if (brand && brand !== 'All') {
+    query.brand = brand;
+  }
+
+  if (maxPrice) {
+    query.price = { $lte: Number(maxPrice) };
+  }
+
+  if (freeShipping) {
+    query.freeShipping = true;
+  }
+
+  let sortOption: any = {};
+  switch (sort) {
+    case 'newest':
+      sortOption.createdAt = -1;
+      break;
+    case 'oldest':
+      sortOption.createdAt = 1;
+      break;
+    case 'low-to-high':
+      sortOption.price = 1;
+      break;
+    case 'high-to-low':
+      sortOption.price = -1;
+      break;
+    case 'a-z':
+      sortOption.name = 1;
+      break;
+    case 'z-a':
+      sortOption.name = -1;
+      break;
+    default:
+      sortOption.createdAt = -1;
+  }
 
   const count = await Product.countDocuments(query);
 
+  const totalPages = Math.ceil(count / Number(limit));
+
+  if (count === 0) {
+    res
+      .status(StatusCodes.OK)
+      .json({ products: [], meta: { totalProducts: 0 } });
+    return;
+  }
+
+  if (Number(page) > totalPages) {
+    res.status(StatusCodes.BAD_REQUEST).json({
+      message: `Invalid page number. There are only ${totalPages} pages available.`,
+    });
+    return;
+  }
+
+  const products = await Product.find(query)
+    .sort(sortOption)
+    .limit(Number(limit))
+    .skip((Number(page) - 1) * Number(limit));
+
   const meta = {
     totalProducts: count,
-    totalPages: Math.ceil(count / Number(limit)),
+    totalPages,
     totalProductsInPage: products.length,
     currentPage: Number(page),
-    productsPerPage: Number(limit),
+    productsPerPage: Math.min(products.length, Number(limit)),
   };
 
-  res.status(StatusCodes.OK).json({ products, meta });
+  const categories = await Product.distinct('category');
+  const brands = await Product.distinct('brand');
+
+  res.status(StatusCodes.OK).json({ products, meta, categories, brands });
 }
 
 export async function getSingleProduct(

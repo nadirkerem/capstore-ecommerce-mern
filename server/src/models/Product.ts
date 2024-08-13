@@ -7,7 +7,7 @@ interface IProduct extends Document {
   image: string;
   category: string;
   colors: string[];
-  company: string;
+  brand: string;
   landing: boolean;
   stock: number;
   freeShipping: boolean;
@@ -48,9 +48,9 @@ const ProductSchema: Schema = new Schema(
       required: [true, 'Colors are required'],
       default: ['#000'],
     },
-    company: {
+    brand: {
       type: String,
-      required: [true, 'Company is required'],
+      required: [true, 'Brand is required'],
     },
     landing: {
       type: Boolean,
