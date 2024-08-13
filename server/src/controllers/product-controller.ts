@@ -7,13 +7,29 @@ export async function getAllProducts(
   req: Request | any,
   res: Response
 ): Promise<void> {
-  const { landing } = req.query;
+  const { page = 1, limit = 6, landing } = req.query;
 
-  const query = landing ? { landing } : {};
+  let query = {};
 
-  const products = await Product.find(query);
+  if (landing) {
+    query = { landing: true };
+  }
 
-  res.status(StatusCodes.OK).json({ products, count: products.length });
+  const products = await Product.find(query)
+    .limit(Number(limit))
+    .skip((Number(page) - 1) * Number(limit));
+
+  const count = await Product.countDocuments(query);
+
+  const meta = {
+    totalProducts: count,
+    totalPages: Math.ceil(count / Number(limit)),
+    totalProductsInPage: products.length,
+    currentPage: Number(page),
+    productsPerPage: Number(limit),
+  };
+
+  res.status(StatusCodes.OK).json({ products, meta });
 }
 
 export async function getSingleProduct(
