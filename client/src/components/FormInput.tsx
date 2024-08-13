@@ -1,5 +1,5 @@
 interface FormInputProps {
-  label: string;
+  label?: string;
   name: string;
   type: string;
   defaultValue?: string;
@@ -18,7 +18,7 @@ export default function FormInput({
   size,
 }: FormInputProps) {
   return (
-    <label className="form-control w-full">
+    <label className="form-control">
       <div className="label">
         <span className="label-text capitalize">{label}</span>
       </div>

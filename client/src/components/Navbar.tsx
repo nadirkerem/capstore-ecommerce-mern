@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FaBars, FaCartShopping, FaShop } from "react-icons/fa6";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useLoaderData } from "react-router-dom";
 import { navbarLinks } from "../utils/links";
 import { useEffect, useState } from "react";
 import { themes } from "../utils/themes";
@@ -10,7 +11,9 @@ function initialTheme() {
 }
 
 export default function Navbar() {
+  const [search, setSearch] = useState<string>("");
   const [theme, setTheme] = useState<string>(initialTheme());
+  const { params } = useLoaderData() as { params: any };
 
   function toggleTheme() {
     const { pastel, sunset } = themes;
@@ -68,13 +71,36 @@ export default function Navbar() {
               );
             })}
           </ul>
-          <div className="form-control">
-            <input
-              type="text"
-              placeholder="Search"
-              className="input input-bordered w-auto"
-            />
-          </div>
+          {/* SEARCH */}
+          <form>
+            <label className="input input-sm input-bordered flex items-center gap-2">
+              <input
+                type="text"
+                className="grow"
+                placeholder="Search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                defaultValue={params.search}
+              />
+              <Link to={`/products?search=${search}`}>
+                <button type="submit">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    className="h-4 w-4 opacity-70"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </Link>
+            </label>
+          </form>
+          {/* SEARCH */}
         </div>
         <div className="navbar-end">
           <ThemeController toggleTheme={toggleTheme} />
