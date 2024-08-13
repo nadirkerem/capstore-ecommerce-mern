@@ -29,13 +29,17 @@ export default function Navbar() {
 
   return (
     <nav className="bg-base-200">
-      <div className="navbar mx-auto max-w-6xl px-8">
+      <div className="navbar mx-auto max-w-7xl">
         <div className="navbar-start">
           <NavLink
             to="/"
-            className="hidden items-center text-5xl transition hover:scale-110 lg:flex"
+            className="hidden items-center text-5xl transition hover:scale-105 lg:flex"
           >
             <FaShop />
+            <span className="text-md ml-2">
+              <strong>Cap</strong>
+              <span>Store</span>
+            </span>
           </NavLink>
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -71,7 +75,6 @@ export default function Navbar() {
               );
             })}
           </ul>
-          {/* SEARCH */}
           <form>
             <label className="input input-sm input-bordered flex items-center gap-2">
               <input
@@ -100,7 +103,6 @@ export default function Navbar() {
               </Link>
             </label>
           </form>
-          {/* SEARCH */}
         </div>
         <div className="navbar-end">
           <ThemeController toggleTheme={toggleTheme} />
