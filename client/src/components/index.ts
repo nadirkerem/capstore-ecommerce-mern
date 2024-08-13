@@ -5,6 +5,7 @@ export { default as Hero } from "./Hero";
 export { default as ListedProducts } from "./ListedProducts";
 export { default as LoadingDots } from "./LoadingDots";
 export { default as Navbar } from "./Navbar";
+export { default as ProductCard } from "./ProductCard";
 export { default as ProductsGrid } from "./ProductsGrid";
 export { default as SectionTitle } from "./SectionTitle";
 export { default as SubmitButton } from "./SubmitButton";
