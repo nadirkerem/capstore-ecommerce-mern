@@ -5,12 +5,11 @@ import "./index.css";
 import { store } from "./app/store.ts";
 import { Provider } from "react-redux";
 
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
+import ThemedToastContainer from "./components/ThemedToastContainer.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <App />
-    <ToastContainer position="bottom-right" />
+    <ThemedToastContainer />
   </Provider>,
 );

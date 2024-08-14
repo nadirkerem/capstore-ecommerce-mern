@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+
 import { CartItem } from "../../types/cart-item";
-import { toast } from "react-toastify";
+
+import { themedToast } from "../../components/ThemedToastContainer";
+
+import { TAX_RATE, SHIPPING_FEE } from "../../utils/constants";
 
 export interface CartState {
   cartItems: CartItem[];
@@ -16,8 +20,8 @@ const initialState: CartState = {
   cartItems: [],
   numberOfItems: 0,
   subTotal: 0,
-  shippingFee: 0.03,
-  tax: 0.1,
+  shippingFee: 0,
+  tax: 0,
   total: 0,
 };
 
@@ -37,10 +41,10 @@ export const cartSlice = createSlice({
     calculateTotal: (state, action: PayloadAction<CartItem>) => {
       const newCartItem = action.payload;
 
-      state.total =
-        state.subTotal +
-        (newCartItem.freeShipping ? 0 : state.shippingFee * state.subTotal) +
-        state.tax * state.subTotal;
+      state.tax = state.subTotal * TAX_RATE;
+      !newCartItem.freeShipping &&
+        (state.shippingFee = state.subTotal * SHIPPING_FEE);
+      state.total = state.subTotal + state.tax + state.shippingFee;
 
       saveCartToCache(state);
     },
@@ -59,7 +63,7 @@ export const cartSlice = createSlice({
 
       cartSlice.caseReducers.calculateTotal(state, action);
 
-      toast.success("Item added to cart");
+      themedToast("success", "Item added to cart");
 
       return state;
     },
@@ -79,7 +83,7 @@ export const cartSlice = createSlice({
         state.numberOfItems -= existingCartItem.amount;
         state.subTotal -= existingCartItem.price * existingCartItem.amount;
         cartSlice.caseReducers.calculateTotal(state, action);
-        toast.success("Item removed from cart");
+        themedToast("error", "Item removed from cart");
       }
 
       cartSlice.caseReducers.calculateTotal(state, action);
@@ -96,7 +100,7 @@ export const cartSlice = createSlice({
           (updatedCartItem.amount - existingCartItem.amount);
         existingCartItem.amount = updatedCartItem.amount;
         cartSlice.caseReducers.calculateTotal(state, action);
-        toast.success("Item updated");
+        themedToast("info", "Item updated");
       }
     },
   },

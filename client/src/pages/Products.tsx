@@ -7,7 +7,7 @@ import {
 
 export default function ProductsPage() {
   return (
-    <div className="grid grid-cols-1 gap-6 bg-base-200 p-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+    <div className="grid grid-cols-1 gap-6 p-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 lg:p-12">
       <div className="col-span-1">
         <ProductFilters />
       </div>

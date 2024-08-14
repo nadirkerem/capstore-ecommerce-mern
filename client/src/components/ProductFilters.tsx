@@ -3,11 +3,11 @@ import { Form, useLoaderData, Link } from "react-router-dom";
 import { FormCheckbox, FormInput, FormRange, FormSelect } from "./";
 
 export default function ProductFilters() {
-  const { meta, categories, brands, params } = useLoaderData() as any;
+  const { categories, brands, params } = useLoaderData() as any;
   const { search, category, brand, sort, maxPrice, freeShipping } = params;
 
   return (
-    <Form className="w-xl mx-auto mt-12 grid items-center gap-x-4 gap-y-8 rounded-md bg-base-200 px-8 py-4 sm:grid-rows-2 md:grid-rows-3 lg:grid-rows-4">
+    <Form className="w-xl mx-auto mt-12 grid items-center gap-x-4 gap-y-8 rounded-md px-8 py-4 sm:grid-rows-2 md:grid-rows-3 lg:grid-rows-4">
       <FormInput
         type="search"
         label="Search Product"
