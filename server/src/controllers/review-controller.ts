@@ -17,7 +17,7 @@ export async function getAllReviews(
     })
     .populate({
       path: 'product',
-      select: 'name company price',
+      select: 'name brand price',
     });
 
   res.status(StatusCodes.OK).json({ reviews, count: reviews.length });
@@ -34,7 +34,7 @@ export async function getSingleReview(
     })
     .populate({
       path: 'product',
-      select: 'name company price',
+      select: 'name brand price',
     });
 
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {

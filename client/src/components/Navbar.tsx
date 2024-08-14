@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FaBars, FaCartShopping, FaShop } from "react-icons/fa6";
-import { Link, NavLink, useLoaderData } from "react-router-dom";
-import { navbarLinks } from "../utils/links";
 import { useEffect, useState } from "react";
+import { Link, NavLink, useLoaderData } from "react-router-dom";
+import { FaBars, FaCartShopping, FaShop } from "react-icons/fa6";
+
+import { useAppSelector } from "../app/hooks";
+
+import { navbarLinks } from "../utils/links";
 import { themes } from "../utils/themes";
+
 import { ThemeController } from ".";
 
 function initialTheme() {
@@ -14,6 +18,7 @@ export default function Navbar() {
   const [search, setSearch] = useState<string>("");
   const [theme, setTheme] = useState<string>(initialTheme());
   const { params } = useLoaderData() as { params: any };
+  const numberOfItems = useAppSelector((state) => state.cart.numberOfItems);
 
   function toggleTheme() {
     const { pastel, sunset } = themes;
@@ -110,7 +115,7 @@ export default function Navbar() {
             <div className="indicator">
               <FaCartShopping className="h-6 w-6" />
               <span className="badge indicator-item badge-neutral badge-sm">
-                0
+                {numberOfItems}
               </span>
             </div>
           </NavLink>

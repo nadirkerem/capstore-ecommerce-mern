@@ -1,17 +1,38 @@
 import { useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 
+import { useAppDispatch } from "../app/hooks";
+import { addToCart } from "../features/cart/cartSlice";
+
 import { formatPrice } from "../utils/format";
-import { Product } from "../types/products";
+import { Product } from "../types/product";
 
 export default function SingleProductPage() {
   const { product } = useLoaderData() as { product: Product };
-  const { name, price, image, description, company, colors, stock } = product;
+  const { name, price, image, description, brand, colors, stock } = product;
 
   const [selectedColor, setSelectedColor] = useState<string>(colors[0]);
   const [selectedAmount, setSelectedAmount] = useState<number>(
     stock > 0 ? 1 : 0,
   );
+
+  const cartItem = {
+    cartID: product.id + selectedColor,
+    productID: product.id,
+    name: product.name,
+    price: product.price,
+    brand: product.brand,
+    image: product.image,
+    color: selectedColor,
+    amount: selectedAmount,
+    freeShipping: product.freeShipping,
+  };
+
+  const dispatch = useAppDispatch();
+
+  function handleAddToCart() {
+    dispatch(addToCart(cartItem));
+  }
 
   return (
     <section className="mx-auto max-w-6xl p-10">
@@ -41,7 +62,7 @@ export default function SingleProductPage() {
           <h1 className="mb-4 text-4xl font-bold">{name}</h1>
           <p className="mb-4 text-2xl text-gray-800">{formatPrice(price)}</p>
           <p className="mb-6 text-gray-700">{description}</p>
-          <p className="mb-4 text-sm text-gray-500">Brand: {company}</p>
+          <p className="mb-4 text-sm text-gray-500">Brand: {brand}</p>
 
           <div className="mb-6">
             <div>
@@ -82,7 +103,7 @@ export default function SingleProductPage() {
 
           <button
             className="btn btn-neutral w-full md:w-auto"
-            onClick={() => console.log("Added")}
+            onClick={handleAddToCart}
           >
             Add to Cart
           </button>

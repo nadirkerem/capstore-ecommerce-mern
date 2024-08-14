@@ -6,7 +6,7 @@ export interface Product {
   image: string;
   category: string;
   colors: string[];
-  company: string;
+  brand: string;
   featured: boolean;
   stock: number;
   freeShipping: boolean;

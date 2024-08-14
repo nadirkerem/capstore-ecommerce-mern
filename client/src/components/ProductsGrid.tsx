@@ -2,7 +2,7 @@ import { useLoaderData } from "react-router-dom";
 
 import { ProductCard } from "./";
 
-import { Product } from "../types/products";
+import { Product } from "../types/product";
 
 export default function ProductsGrid() {
   const { products } = useLoaderData() as { products: Product[] };

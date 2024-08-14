@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import { formatPrice } from "../utils/format";
 
-import { Product } from "../types/products";
+import { Product } from "../types/product";
 
 export default function ProductCard({ id, name, price, image }: Product) {
   return (
