@@ -85,8 +85,7 @@ export const cartSlice = createSlice({
         cartSlice.caseReducers.calculateTotal(state, action);
         themedToast("error", "Item removed from cart");
       }
-
-      cartSlice.caseReducers.calculateTotal(state, action);
+      return state;
     },
     editItem: (state, action: PayloadAction<CartItem>) => {
       const updatedCartItem = action.payload;
@@ -102,6 +101,7 @@ export const cartSlice = createSlice({
         cartSlice.caseReducers.calculateTotal(state, action);
         themedToast("info", "Item updated");
       }
+      return state;
     },
   },
 });
