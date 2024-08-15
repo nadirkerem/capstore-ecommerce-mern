@@ -1,11 +1,22 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function Hero() {
+  const [currentImage, setCurrentImage] = useState("https://picsum.photos/1920/1200");
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentImage("https://picsum.photos/1920/1200");
+    }, 3000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <div
-      className="hero min-h-[700px] bg-cover"
+      className="hero min-h-[700px] bg-cover transition-all duration-500"
       style={{
-        backgroundImage: "url(https://picsum.photos/1920/1200)",
+        backgroundImage: `url(${currentImage})`,
       }}
     >
       <div className="hero-overlay bg-black bg-opacity-30"></div>
@@ -27,5 +38,3 @@ export default function Hero() {
     </div>
   );
 }
-
-Hero;
