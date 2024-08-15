@@ -1,14 +1,17 @@
 {
-  "name": "capstone-ecommerce-main",
-  "version": "0.0.0",
+  "name": "capstone-ecommerce-mern",
+  "version": "1.0.0",
   "scripts": {
-    "start": "",
-    "build": "",
-    "serve": "",
-    "dev": ""
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "install-server": "cd server && npm install",
+    "install-client": "cd client && npm install",
+    "install": "concurrently \"npm run install-server\" \"npm run install-client\""
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
