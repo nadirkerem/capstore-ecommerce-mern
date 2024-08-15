@@ -1,23 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { Link, NavLink, useLoaderData } from "react-router-dom";
+import { Link, NavLink, useLoaderData, useNavigate } from "react-router-dom";
 import { FaBars, FaCartShopping, FaShop } from "react-icons/fa6";
 
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 
-import { navbarLinks } from "../utils/links";
+import { guestLinks, navbarLinks, userLinks } from "../utils/links";
 
 import { ThemeController } from ".";
-import { toggleTheme } from "../features/user/userSlice";
+
+import { logoutUser, toggleTheme } from "../features/user/userSlice";
+import { clearCart } from "../features/cart/cartSlice";
 
 export default function Navbar() {
   const [search, setSearch] = useState<string>("");
   const { params } = useLoaderData() as { params: any };
+  const user = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch();
   const numberOfItems = useAppSelector((state) => state.cart.numberOfItems);
+  const navigate = useNavigate();
 
   function handleThemeToggle() {
     dispatch(toggleTheme());
+  }
+
+  function handleLogout() {
+    dispatch(logoutUser());
+    dispatch(clearCart());
+    navigate("/");
   }
 
   return (
@@ -97,7 +107,7 @@ export default function Navbar() {
             </label>
           </form>
         </div>
-        <div className="navbar-end">
+        <div className="navbar-end gap-x-2">
           <ThemeController handleThemeToggle={handleThemeToggle} />
           <NavLink to="/cart" className="btn btn-circle btn-ghost btn-md">
             <div className="indicator">
@@ -107,18 +117,49 @@ export default function Navbar() {
               </span>
             </div>
           </NavLink>
-          <div
-            tabIndex={0}
-            role="button"
-            className="avatar btn btn-circle btn-ghost ml-4"
-          >
-            <div className="w-10 rounded-full">
-              <img
-                alt="profile avatar"
-                src="https://100k-faces.glitch.me/random-image"
-              />
-            </div>
+          {/*  */}
+          <div className="flex items-center justify-center gap-x-2">
+            {user ? (
+              <div className="flex items-center gap-x-2">
+                <p className="text-xs font-medium sm:text-sm">
+                  Hello, {user.username}
+                </p>
+                {userLinks.map((link) => {
+                  const { id, name, path } = link;
+                  return (
+                    <Link
+                      key={id}
+                      to={path}
+                      className="btn btn-neutral btn-xs sm:btn-sm"
+                    >
+                      {name}
+                    </Link>
+                  );
+                })}
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-neutral btn-xs sm:btn-sm"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              guestLinks.map((link) => {
+                const { id, name, path } = link;
+                return (
+                  <Link
+                    key={id}
+                    to={path}
+                    className="btn btn-neutral btn-xs sm:btn-sm"
+                  >
+                    {name}
+                  </Link>
+                );
+              })
+            )}
           </div>
+
+          {/*  */}
         </div>
       </div>
     </nav>

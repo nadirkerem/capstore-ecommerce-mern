@@ -2,12 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 import { themes } from "../../utils/themes";
+import { themedToast } from "../../components/ThemedToastContainer";
 
 export interface UserState {
   user: {
     username: string;
     email: string;
-  };
+  } | null;
   theme: string;
 }
 
@@ -33,7 +34,9 @@ export const userSlice = createSlice({
       console.log("login");
     },
     logoutUser: (state) => {
-      console.log("logout");
+      state.user = null;
+      localStorage.removeItem("user");
+      themedToast("success", "Logged out successfully");
     },
     toggleTheme: (state) => {
       const { light, dark } = themes;

@@ -5,10 +5,8 @@ export const navbarLinks = [
 ];
 
 export const userLinks = [
-  { id: 1, name: "Favorites", path: "/favorites" },
-  { id: 2, name: "Orders", path: "/orders" },
-  { id: 3, name: "Reviews", path: "/reviews" },
-  { id: 4, name: "Logout", path: "/logout" },
+  { id: 1, name: "Orders", path: "/orders" },
+  // { id: 2, name: "Logout", path: "/logout" },
 ];
 
 export const guestLinks = [
