@@ -7,7 +7,6 @@ import {
   HomeLayout,
   LandingPage,
   LoginPage,
-  OrdersPage,
   ProductsPage,
   RegisterPage,
   SingleProductPage,
