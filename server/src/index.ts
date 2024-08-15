@@ -39,8 +39,8 @@ app.use(mongoSanitize());
 app.use(xss());
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
+    // origin: process.env.CLIENT_URL,
+    // credentials: true,
   })
 );
 
