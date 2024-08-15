@@ -25,6 +25,13 @@ const PORT = process.env.PORT || 5000;
 
 const app: Application = express();
 
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  })
+);
+
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
@@ -37,7 +44,6 @@ app.use(
 );
 app.use(mongoSanitize());
 app.use(xss());
-app.use(cors());
 
 connectDB();
 
