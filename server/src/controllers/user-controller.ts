@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import User from '../models/User';
-import { attachCookies } from '../utils/jwt';
+import { attachCookies, createJWT } from '../utils/jwt';
 import { checkPermission } from '../utils/permission';
 import mongoose from 'mongoose';
 
@@ -18,7 +18,7 @@ export async function getSingleUser(
   res: Response
 ): Promise<void> {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    res.status(StatusCodes.BAD_REQUEST).json({ message: 'Invalid user id' });
+    res.status(StatusCodes.BAD_REQUEST).json({ message: 'Invalid user ID' });
     return;
   }
 
@@ -81,7 +81,9 @@ export async function updateUser(
     role: user!.role,
   };
 
-  attachCookies({ res, tokenUser });
+  const token = createJWT({ payload: tokenUser });
+
+  attachCookies({ res, token });
 
   res.status(StatusCodes.OK).json({ user: tokenUser });
 }
