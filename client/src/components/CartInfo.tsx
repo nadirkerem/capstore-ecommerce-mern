@@ -13,23 +13,21 @@ export default function CartInfo() {
       <div className="card-body">
         <h2 className="card-title text-lg font-bold">Cart Summary</h2>
         <div className="flex justify-between">
-          <span className="text-neutral">Subtotal:</span>
-          <span className="font-medium text-neutral">
-            {formatPrice(subTotal)}
-          </span>
+          <span className="">Subtotal:</span>
+          <span className="font-medium">{formatPrice(subTotal)}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-neutral">Shipping Fee:</span>
-          <span className="font-medium text-neutral">
+          <span className="">Shipping Fee:</span>
+          <span className="font-medium">
             {shippingFee === 0 ? "FREE" : formatPrice(shippingFee)}
           </span>
         </div>
         <div className="flex justify-between">
-          <span className="text-neutral">Tax:</span>
-          <span className="font-medium text-neutral">{formatPrice(tax)}</span>
+          <span className="">Tax:</span>
+          <span className="font-medium">{formatPrice(tax)}</span>
         </div>
         <div className="divider"></div>
-        <div className="flex justify-between font-bold text-neutral">
+        <div className="flex justify-between font-bold">
           <span>Total:</span>
           <span>{formatPrice(total)}</span>
         </div>

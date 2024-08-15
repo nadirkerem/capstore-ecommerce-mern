@@ -1,4 +1,4 @@
 export const themes = {
-  pastel: "pastel",
-  sunset: "sunset",
+  light: "pastel",
+  dark: "sunset",
 };

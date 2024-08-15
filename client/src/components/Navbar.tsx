@@ -1,36 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, NavLink, useLoaderData } from "react-router-dom";
 import { FaBars, FaCartShopping, FaShop } from "react-icons/fa6";
 
-import { useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 
 import { navbarLinks } from "../utils/links";
-import { themes } from "../utils/themes";
 
 import { ThemeController } from ".";
-
-function initialTheme() {
-  return localStorage.getItem("theme") || themes.pastel;
-}
+import { toggleTheme } from "../features/user/userSlice";
 
 export default function Navbar() {
   const [search, setSearch] = useState<string>("");
-  const [theme, setTheme] = useState<string>(initialTheme());
   const { params } = useLoaderData() as { params: any };
+  const dispatch = useAppDispatch();
   const numberOfItems = useAppSelector((state) => state.cart.numberOfItems);
 
-  function toggleTheme() {
-    const { pastel, sunset } = themes;
-    const newTheme = theme === pastel ? sunset : pastel;
-    document.documentElement.setAttribute("data-theme", newTheme);
-    setTheme(newTheme);
+  function handleThemeToggle() {
+    dispatch(toggleTheme());
   }
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
 
   return (
     <nav className="bg-base-200">
@@ -110,7 +98,7 @@ export default function Navbar() {
           </form>
         </div>
         <div className="navbar-end">
-          <ThemeController toggleTheme={toggleTheme} />
+          <ThemeController handleThemeToggle={handleThemeToggle} />
           <NavLink to="/cart" className="btn btn-circle btn-ghost btn-md">
             <div className="indicator">
               <FaCartShopping className="h-6 w-6" />

@@ -1,7 +1,7 @@
 export default function ThemeController({
-  toggleTheme,
+  handleThemeToggle,
 }: {
-  toggleTheme: () => void;
+  handleThemeToggle: () => void;
 }) {
   return (
     <label className="flex cursor-pointer gap-2">
@@ -22,7 +22,7 @@ export default function ThemeController({
       <input
         type="checkbox"
         value="synthwave"
-        onChange={toggleTheme}
+        onChange={handleThemeToggle}
         className="theme-controller toggle"
       />
       <svg
