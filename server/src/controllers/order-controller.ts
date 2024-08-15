@@ -50,7 +50,7 @@ export async function getCurrentUserOrders(req: Request | any, res: Response) {
 }
 
 export async function createOrder(req: Request | any, res: Response) {
-  const { items: cartItems, tax, shippingFee } = req.body;
+  const { items: cartItems, tax, shippingFee, shippingAddress } = req.body;
 
   if (!cartItems || cartItems.length < 1) {
     res.status(400).json({ message: 'Items are required' });
@@ -59,6 +59,18 @@ export async function createOrder(req: Request | any, res: Response) {
 
   if (!tax || !shippingFee) {
     res.status(400).json({ message: 'Tax and shipping fee are required' });
+    return;
+  }
+
+  if (
+    !shippingAddress ||
+    !shippingAddress.street ||
+    !shippingAddress.city ||
+    !shippingAddress.state ||
+    !shippingAddress.postalCode ||
+    !shippingAddress.country
+  ) {
+    res.status(400).json({ message: 'Complete shipping address is required' });
     return;
   }
 
@@ -103,6 +115,7 @@ export async function createOrder(req: Request | any, res: Response) {
     subTotal,
     total,
     clientSecret: paymentIntent.client_secret,
+    shippingAddress,
   });
 
   if (!order) {

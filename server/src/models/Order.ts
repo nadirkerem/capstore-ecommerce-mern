@@ -2,6 +2,14 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 import { IOrderItem, OrderItemSchema } from './OrderItem';
 
+interface IShippingAddress {
+  street: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+}
+
 interface IOrder extends Document {
   tax: number;
   shippingFee: number;
@@ -12,7 +20,31 @@ interface IOrder extends Document {
   clientSecret: string;
   paymentIntentId: string;
   status: string;
+  shippingAddress: IShippingAddress;
 }
+
+const ShippingAddressSchema: Schema = new Schema({
+  street: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  postalCode: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+});
 
 const OrderSchema: Schema = new Schema(
   {
@@ -60,6 +92,10 @@ const OrderSchema: Schema = new Schema(
       ],
       required: true,
       default: 'processing',
+    },
+    shippingAddress: {
+      type: ShippingAddressSchema,
+      required: true,
     },
   },
   {
