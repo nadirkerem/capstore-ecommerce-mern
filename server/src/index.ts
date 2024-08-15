@@ -32,10 +32,22 @@ app.use(
   })
 );
 
+app.options(
+  '*',
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  })
+);
+
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
