@@ -60,8 +60,8 @@ export default function SingleProductPage() {
 
         <div className="w-full">
           <h1 className="mb-4 text-4xl font-bold">{name}</h1>
-          <p className="mb-4 text-2xl text-gray-800">{formatPrice(price)}</p>
-          <p className="mb-6 text-gray-700">{description}</p>
+          <p className="mb-4 text-2xl">{formatPrice(price)}</p>
+          <p className="mb-6">{description}</p>
           <p className="mb-4 text-sm text-gray-500">Brand: {brand}</p>
 
           <div className="mb-6">
