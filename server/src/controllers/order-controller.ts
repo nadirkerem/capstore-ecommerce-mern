@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import mongoose from 'mongoose';
 
 import Product from '../models/Product';
 import Order from '../models/Order';
 import { checkPermission } from '../utils/permission';
-import mongoose from 'mongoose';
 
 async function mockStripeAPI({
   amount,
@@ -32,7 +32,7 @@ export async function getSingleOrder(req: Request | any, res: Response) {
   const order = await Order.findById(req.params.id);
 
   if (!order) {
-    res.status(404).json({ message: 'Order not found' });
+    res.status(StatusCodes.NOT_FOUND).json({ message: 'Order not found' });
     return;
   }
 
@@ -53,12 +53,14 @@ export async function createOrder(req: Request | any, res: Response) {
   const { items: cartItems, tax, shippingFee, shippingAddress } = req.body;
 
   if (!cartItems || cartItems.length < 1) {
-    res.status(400).json({ message: 'Items are required' });
+    res.status(StatusCodes.BAD_REQUEST).json({ message: 'Items are required' });
     return;
   }
 
   if (!tax || !shippingFee) {
-    res.status(400).json({ message: 'Tax and shipping fee are required' });
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: 'Tax and shipping fee are required' });
     return;
   }
 
@@ -70,7 +72,9 @@ export async function createOrder(req: Request | any, res: Response) {
     !shippingAddress.postalCode ||
     !shippingAddress.country
   ) {
-    res.status(400).json({ message: 'Complete shipping address is required' });
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: 'Complete shipping address is required' });
     return;
   }
 
@@ -81,7 +85,9 @@ export async function createOrder(req: Request | any, res: Response) {
     const product = await Product.findById(cartItems[i].product);
 
     if (!product) {
-      res.status(400).json({ message: 'Product not found' });
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: 'Product not found' });
       return;
     }
 
@@ -93,6 +99,9 @@ export async function createOrder(req: Request | any, res: Response) {
       price: Math.round(price * 100),
       image,
       amount: cartItems[i].amount,
+      brand: cartItems[i].brand,
+      color: cartItems[i].color,
+      cartID: cartItems[i].cartID,
     };
 
     orderItems.push(orderItem);
@@ -116,10 +125,13 @@ export async function createOrder(req: Request | any, res: Response) {
     total,
     clientSecret: paymentIntent.client_secret,
     shippingAddress,
+    numberOfItems: orderItems.length,
   });
 
   if (!order) {
-    res.status(400).json({ message: 'Order could not be created' });
+    res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: 'Order could not be created' });
     return;
   }
 
@@ -139,7 +151,7 @@ export async function updateOrder(req: Request | any, res: Response) {
   const order = await Order.findById(req.params.id);
 
   if (!order) {
-    res.status(404).json({ message: 'Order not found' });
+    res.status(StatusCodes.NOT_FOUND).json({ message: 'Order not found' });
     return;
   }
 
@@ -164,7 +176,7 @@ export async function deleteOrder(req: Request, res: Response) {
   const order = await Order.findById(req.params.id);
 
   if (!order) {
-    res.status(404).json({ message: 'Order not found' });
+    res.status(StatusCodes.NOT_FOUND).json({ message: 'Order not found' });
     return;
   }
 

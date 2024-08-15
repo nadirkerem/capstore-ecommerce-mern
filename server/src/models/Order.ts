@@ -1,13 +1,22 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-import { IOrderItem, OrderItemSchema } from './OrderItem';
-
 interface IShippingAddress {
   street: string;
   city: string;
   state: string;
   postalCode: string;
   country: string;
+}
+
+interface IOrderItem {
+  cartID: string;
+  name: string;
+  image: string;
+  brand: string;
+  color: string;
+  price: number;
+  amount: number;
+  product: mongoose.Schema.Types.ObjectId; // Updated to represent the product ID
 }
 
 interface IOrder extends Document {
@@ -21,6 +30,7 @@ interface IOrder extends Document {
   paymentIntentId: string;
   status: string;
   shippingAddress: IShippingAddress;
+  numberOfItems: number;
 }
 
 const ShippingAddressSchema: Schema = new Schema({
@@ -45,6 +55,47 @@ const ShippingAddressSchema: Schema = new Schema({
     required: true,
   },
 });
+
+const OrderItemSchema: Schema = new Schema(
+  {
+    cartID: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    brand: {
+      type: String,
+      required: true,
+    },
+    color: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+    product: {
+      type: mongoose.Schema.Types.ObjectId, // Refers to the Product ID
+      ref: 'Product',
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const OrderSchema: Schema = new Schema(
   {
@@ -95,6 +146,10 @@ const OrderSchema: Schema = new Schema(
     },
     shippingAddress: {
       type: ShippingAddressSchema,
+      required: true,
+    },
+    numberOfItems: {
+      type: Number,
       required: true,
     },
   },
