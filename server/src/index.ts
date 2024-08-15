@@ -28,6 +28,7 @@ const app: Application = express();
 app.use(
   cors({
     origin: 'https://capstore-mern-ecommerce.vercel.app',
+    credentials: true,
   })
 );
 
@@ -35,6 +36,7 @@ app.options(
   '*',
   cors({
     origin: 'https://capstore-mern-ecommerce.vercel.app',
+    credentials: true,
   })
 );
 
