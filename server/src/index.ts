@@ -27,14 +27,14 @@ const app: Application = express();
 
 app.use(
   cors({
-    origin: 'https://mern-ecommerce-chi-lemon.vercel.app/',
+    origin: 'https://capstore-mern-ecommerce.vercel.app',
   })
 );
 
 app.options(
   '*',
   cors({
-    origin: 'https://mern-ecommerce-chi-lemon.vercel.app/',
+    origin: 'https://capstore-mern-ecommerce.vercel.app',
   })
 );
 
