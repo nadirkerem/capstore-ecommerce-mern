@@ -31,6 +31,7 @@ export default function CheckoutForm() {
                 placeholder="123 Main St"
                 required
                 className="input input-bordered w-full"
+                defaultValue="123 Main St"
               />
             </div>
 
@@ -44,6 +45,7 @@ export default function CheckoutForm() {
                 placeholder="City"
                 required
                 className="input input-bordered w-full"
+                defaultValue="Tampa"
               />
             </div>
 
@@ -57,6 +59,7 @@ export default function CheckoutForm() {
                 placeholder="State"
                 required
                 className="input input-bordered w-full"
+                defaultValue="FL"
               />
             </div>
 
@@ -70,6 +73,7 @@ export default function CheckoutForm() {
                 placeholder="Postal Code"
                 required
                 className="input input-bordered w-full"
+                defaultValue="33602"
               />
             </div>
 
@@ -83,6 +87,7 @@ export default function CheckoutForm() {
                 placeholder="Country"
                 required
                 className="input input-bordered w-full"
+                defaultValue="United States"
               />
             </div>
 
@@ -100,6 +105,7 @@ export default function CheckoutForm() {
                 placeholder="1234 5678 9012 3456"
                 required
                 className="input input-bordered w-full"
+                defaultValue="1234 5678 9012 3456"
               />
             </div>
 
@@ -113,6 +119,7 @@ export default function CheckoutForm() {
                 placeholder="MM/YY"
                 required
                 className="input input-bordered w-full"
+                defaultValue="12/24"
               />
             </div>
 
@@ -126,6 +133,7 @@ export default function CheckoutForm() {
                 placeholder="123"
                 required
                 className="input input-bordered w-full"
+                defaultValue="123"
               />
             </div>
 
