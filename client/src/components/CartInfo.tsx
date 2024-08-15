@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
 import { formatPrice } from "../utils/format";
 
-export default function CartInfo() {
-  const user = null;
+export default function CartInfo({ checkout }: { checkout?: boolean }) {
+  const user = useAppSelector((state) => state.user.user);
   const { subTotal, shippingFee, tax, total } = useAppSelector(
     (state) => state.cart,
   );
@@ -31,15 +31,16 @@ export default function CartInfo() {
           <span>Total:</span>
           <span>{formatPrice(total)}</span>
         </div>
-        {user ? (
-          <Link to="/checkout" className="btn btn-success btn-block mt-8">
-            Proceed to Checkout
-          </Link>
-        ) : (
-          <Link to="/login" className="btn btn-success btn-block mt-8">
-            Login to Checkout
-          </Link>
-        )}
+        {!checkout &&
+          (user ? (
+            <Link to="/checkout" className="btn btn-success btn-block mt-8">
+              Proceed to Checkout
+            </Link>
+          ) : (
+            <Link to="/login" className="btn btn-success btn-block mt-8">
+              Login to Checkout
+            </Link>
+          ))}
       </div>
     </div>
   );

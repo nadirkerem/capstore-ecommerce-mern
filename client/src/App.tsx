@@ -19,6 +19,7 @@ import {
   landingLoader,
   allProductsLoader,
   singleProductLoader,
+  checkoutLoader,
 } from "./utils/loaders";
 
 import { loginAction, registerAction } from "./utils/actions";
@@ -53,14 +54,18 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: <CartPage />,
+        errorElement: <Error />,
       },
       {
         path: "checkout",
         element: <CheckoutPage />,
+        errorElement: <Error />,
+        loader: checkoutLoader(store),
       },
       {
         path: "orders",
         element: <OrdersPage />,
+        errorElement: <Error />,
       },
       {
         path: "products",
