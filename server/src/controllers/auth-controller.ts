@@ -60,22 +60,29 @@ export async function register(req: Request, res: Response): Promise<void> {
     role: user.role,
   };
 
-  attachCookies({ res, tokenUser });
+  const token = createJWT({ payload: tokenUser });
 
-  res.status(StatusCodes.CREATED).json({ user: tokenUser });
+  attachCookies({ res, token });
+
+  res.status(StatusCodes.CREATED).json({ user: tokenUser, token });
 }
 
 export async function login(req: Request, res: Response): Promise<void> {
-  const { email, password } = req.body;
+  const { identifier, password } = req.body;
 
-  if (!email || !password) {
+  if (!identifier || !password) {
     res
       .status(StatusCodes.BAD_REQUEST)
-      .json({ message: 'Email and password are required' });
+      .json({ message: 'Username/email and password are required' });
     return;
   }
 
-  const user = await User.findOne({ email });
+  let user;
+  if (validator.isEmail(identifier)) {
+    user = await User.findOne({ email: identifier });
+  } else {
+    user = await User.findOne({ username: identifier });
+  }
 
   if (!user) {
     res
@@ -100,15 +107,19 @@ export async function login(req: Request, res: Response): Promise<void> {
     role: user.role,
   };
 
-  attachCookies({ res, tokenUser });
+  const token = createJWT({ payload: tokenUser });
 
-  res.status(StatusCodes.OK).json({ user: tokenUser });
+  attachCookies({ res, token });
+
+  res.status(StatusCodes.OK).json({ user: tokenUser, token });
 }
 
 export async function logout(req: Request, res: Response): Promise<void> {
   res.cookie('token', 'loggedout', {
     httpOnly: true,
     expires: new Date(Date.now()),
+    signed: true,
+    secure: process.env.NODE_ENV === 'production',
   });
 
   res.status(StatusCodes.OK).json({ message: 'Logged out' });

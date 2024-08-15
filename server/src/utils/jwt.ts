@@ -24,18 +24,11 @@ export function verifyJWT({ token }: { token: string }) {
 
 export function attachCookies({
   res,
-  tokenUser,
+  token,
 }: {
   res: any;
-  tokenUser: {
-    username: string;
-    userId: string | unknown;
-    email: string;
-    role: string;
-  };
+  token: string;
 }): void {
-  const token = createJWT({ payload: tokenUser });
-
   res.cookie('token', token, {
     httpOnly: true,
     expires: new Date(Date.now() + 1000 * 60 * 60 * 24),

@@ -1,5 +1,3 @@
-import { Link, useNavigate } from "react-router-dom";
-
 import { Navbar } from ".";
 
 export default function Header() {
