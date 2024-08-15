@@ -27,7 +27,7 @@ const app: Application = express();
 
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
@@ -35,7 +35,7 @@ app.use(
 app.options(
   '*',
   cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
@@ -43,11 +43,7 @@ app.options(
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
-app.use(
-  helmet({
-    crossOriginResourcePolicy: false,
-  })
-);
+app.use(helmet());
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000,
