@@ -20,6 +20,7 @@ import {
   allProductsLoader,
   singleProductLoader,
 } from "./utils/loaders";
+import { registerAction } from "./utils/actions";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,8 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <RegisterPage />,
+        errorElement: <Error />,
+        action: registerAction,
       },
       {
         path: "login",

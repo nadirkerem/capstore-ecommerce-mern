@@ -12,7 +12,7 @@ export default function SubmitButton({ label }: SubmitButtonProps) {
   return (
     <button
       type="submit"
-      className="btn btn-primary btn-block"
+      className="btn btn-neutral btn-block"
       disabled={isSubmitting}
     >
       {isSubmitting ? <LoadingDots /> : label || "Submit"}

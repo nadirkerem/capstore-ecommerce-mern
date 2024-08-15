@@ -7,7 +7,7 @@ export default function LoginPage() {
     <section className="grid h-screen place-items-center">
       <Form
         method="POST"
-        className="card bg-base-100 flex w-96 flex-col gap-y-5 p-8 shadow-md"
+        className="card flex w-96 flex-col gap-y-5 bg-base-100 p-8 shadow-md"
       >
         <h2 className="text-center text-2xl font-bold">
           Login to your account
@@ -30,7 +30,7 @@ export default function LoginPage() {
           Don't have an account?{" "}
           <Link
             to="/register"
-            className="text-primary link link-hover link-primary text-center"
+            className="link-hover link link-neutral text-center text-neutral"
           >
             Register
           </Link>
