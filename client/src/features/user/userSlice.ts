@@ -3,26 +3,25 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 import { themes } from "../../utils/themes";
 import { themedToast } from "../../components/ThemedToastContainer";
+import { initialTheme, initialUser } from "../../utils/local-storage";
 
 export interface UserState {
-  user: {
-    username: string;
-    email: string;
-  } | null;
+  user: User | null;
   theme: string;
 }
 
-function initialTheme() {
-  const theme = localStorage.getItem("theme") || themes.light;
-  document.documentElement.setAttribute("data-theme", theme);
-  return theme;
+interface User {
+  user: {
+    username: string;
+    email: string;
+    role: string;
+    userId: string;
+  };
+  token: string;
 }
 
 const initialState: UserState = {
-  user: {
-    username: "nkeremc",
-    email: "nadirkeremcetin@gmail.com",
-  },
+  user: initialUser(),
   theme: initialTheme(),
 };
 
@@ -30,8 +29,14 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    loginUser: (state, action: PayloadAction<string>) => {
-      console.log("login");
+    loginUser: (state, action: PayloadAction<User>) => {
+      const user = {
+        user: action.payload.user,
+        token: action.payload.token,
+      };
+      state.user = user;
+      localStorage.setItem("user", JSON.stringify(user));
+      return state;
     },
     logoutUser: (state) => {
       state.user = null;

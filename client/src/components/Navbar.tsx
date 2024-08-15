@@ -122,7 +122,10 @@ export default function Navbar() {
             {user ? (
               <div className="flex items-center gap-x-2">
                 <p className="text-xs font-medium sm:text-sm">
-                  Hello, {user.username}
+                  Hello,{" "}
+                  {user.user.username.length > 10
+                    ? user.user.username.slice(0, 10) + "..."
+                    : user.user.username}
                 </p>
                 {userLinks.map((link) => {
                   const { id, name, path } = link;

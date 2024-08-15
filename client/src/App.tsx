@@ -20,7 +20,10 @@ import {
   allProductsLoader,
   singleProductLoader,
 } from "./utils/loaders";
-import { registerAction } from "./utils/actions";
+
+import { loginAction, registerAction } from "./utils/actions";
+
+import { store } from "./app/store";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +47,8 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <LoginPage />,
+        errorElement: <Error />,
+        action: loginAction(store),
       },
       {
         path: "cart",

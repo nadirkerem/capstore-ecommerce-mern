@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function Hero() {
   return (
     <div
-      className="hero h-[90vh]"
+      className="hero min-h-[700px] bg-cover"
       style={{
         backgroundImage: "url(https://picsum.photos/1920/1200)",
       }}

@@ -13,10 +13,10 @@ export default function LoginPage() {
           Login to your account
         </h2>
         <FormInput
-          label="Email"
-          type="email"
-          name="email"
-          defaultValue="johndoe@email.com"
+          label="Email or Username"
+          type="text"
+          name="identifier"
+          defaultValue="johndoe"
         />
         <FormInput
           label="Password"
