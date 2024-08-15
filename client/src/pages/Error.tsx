@@ -7,7 +7,7 @@ export default function ErrorPage() {
 
   if (error.status === 404) {
     return (
-      <main className="grid min-h-screen place-items-center">
+      <main className="grid min-h-[600px] place-items-center">
         <div className="text-center">
           <p className="text-8xl font-bold text-primary">404</p>
           <h1 className="mt-6 text-center text-4xl font-bold">

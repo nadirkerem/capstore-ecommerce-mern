@@ -9,7 +9,7 @@ export default function CartInfo({ checkout }: { checkout?: boolean }) {
   );
 
   return (
-    <div className="card bg-base-100 p-4 shadow-lg">
+    <div className="card sticky top-5 cursor-default bg-base-100 p-4 shadow-lg">
       <div className="card-body">
         <h2 className="card-title text-lg font-bold">Cart Summary</h2>
         <div className="flex justify-between">

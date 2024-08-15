@@ -22,9 +22,10 @@ import {
   checkoutLoader,
 } from "./utils/loaders";
 
-import { loginAction, registerAction } from "./utils/actions";
+import { loginAction, registerAction, checkoutAction } from "./utils/actions";
 
 import { store } from "./app/store";
+import ComingSoonPage from "./pages/ComingSoon";
 
 const router = createBrowserRouter([
   {
@@ -61,10 +62,16 @@ const router = createBrowserRouter([
         element: <CheckoutPage />,
         errorElement: <Error />,
         loader: checkoutLoader(store),
+        action: checkoutAction(store),
       },
       {
         path: "orders",
-        element: <OrdersPage />,
+        element: <ComingSoonPage />,
+        errorElement: <Error />,
+      },
+      {
+        path: "dashboard",
+        element: <ComingSoonPage />,
         errorElement: <Error />,
       },
       {

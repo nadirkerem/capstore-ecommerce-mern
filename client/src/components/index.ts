@@ -1,6 +1,7 @@
 export { default as CartInfo } from "./CartInfo";
 export { default as CartItem } from "./CartItem";
 export { default as CartItemsContainer } from "./CartItemsContainer";
+export { default as CheckoutForm } from "./CheckoutForm";
 export { default as Error } from "./Error";
 export { default as FormCheckbox } from "./FormCheckbox";
 export { default as FormInput } from "./FormInput";

@@ -1,5 +1,5 @@
 import { useAppSelector } from "../app/hooks";
-import { CartInfo, SectionTitle } from "../components";
+import { CartInfo, CheckoutForm, SectionTitle } from "../components";
 
 export default function CheckoutPage() {
   const total = useAppSelector((state) => state.cart.total);
@@ -10,7 +10,7 @@ export default function CheckoutPage() {
         <>
           <SectionTitle text="Checkout" />
           <div className="mt-8 grid items-start gap-8 lg:grid-cols-2">
-            {/* <CheckoutForm /> */}
+            <CheckoutForm />
             <CartInfo checkout />
           </div>
         </>
