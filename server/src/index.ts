@@ -28,7 +28,6 @@ const app: Application = express();
 app.use(
   cors({
     origin: 'https://mern-ecommerce-chi-lemon.vercel.app/',
-    credentials: true,
   })
 );
 
@@ -36,7 +35,6 @@ app.options(
   '*',
   cors({
     origin: 'https://mern-ecommerce-chi-lemon.vercel.app/',
-    credentials: true,
   })
 );
 
